@@ -1,46 +1,50 @@
-# Revela AI — Adaptive Hiring Intelligence 
+# Revela AI — Adaptive Hiring Intelligence
 
 ![Revela AI Architecture](./revela_ai_architecture_hero.png)
 
-A production-grade, memory-persistent technical interview agent designed for high-growth startups. Unlike static chatbots, Revela AI progressively learns candidate behavior and dynamically optimizes interview depth while reducing inference costs by over **63%**.
+A production-grade, memory-persistent technical interview platform built for high-growth startups. Unlike static chatbots, Revela AI progressively learns candidate behavior and dynamically optimizes interview depth while reducing inference costs by over **63%**.
 
-Built with  **Hindsight** and  **CascadeFlow** for the 2026 AI Innovation Hackathon.
-
----
-
-##  Key Innovation Pillars
-
-### 1. Biomimetic Memory Persistence (Official Hindsight)
-Revela AI utilizes Hindsight's official SDK to implement a **Retain, Recall, Reflect** cycle. 
-- **Retain**: Captures technical gaps and behavioral nuances in real-time.
-- **Recall**: Before every session, the agent retrieves distilled "Candidate Dossiers" to avoid repetition.
-- **Reflect**: A dedicated manager agent performs cross-session trajectory analysis, identifying if a candidate has improved since their last round.
-
-### 2. Speculative Execution Routing (Official CascadeFlow)
-We implement an **In-Process Intelligence Layer** that treats model selection as a first-class engineering decision.
-- **Confidence-Based Routing**: Simple behavioral questions route to efficiency models (llama-8b).
-- **Escalation Logic**: Complex system design or technical evaluations escalate to performance models (llama-70b) only when a quality gate (0.7 complexity threshold) is triggered.
-- **Budget Guard**: Real-time enforcement of token budgets with a "Safe Mode" failover tier.
+Full-stack: **Next.js 15** (App Router, TypeScript) frontend + **FastAPI** (Python) backend + **MongoDB** persistence, powered by **Hindsight** and **CascadeFlow**. Originally built for the 2026 AI Innovation Hackathon.
 
 ---
 
-##  Performance & Cost Optimization
+## Key Innovation Pillars
+
+### 1. Biomimetic Memory Persistence (Hindsight)
+Revela AI uses Hindsight's SDK to implement a **Retain, Recall, Reflect** cycle.
+- **Retain** — captures technical gaps and behavioral nuances in real-time.
+- **Recall** — before every session, the agent retrieves distilled "Candidate Dossiers" to avoid repetition.
+- **Reflect** — a dedicated manager agent performs cross-session trajectory analysis, identifying if a candidate has improved since their last round.
+
+### 2. Speculative Execution Routing (CascadeFlow)
+An **in-process intelligence layer** that treats model selection as a first-class engineering decision.
+- **Confidence-based routing** — simple behavioral questions route to efficiency models (llama-8b).
+- **Escalation logic** — complex system-design or technical evaluations escalate to performance models (llama-70b) only when a quality gate (0.7 complexity threshold) is triggered.
+- **Budget guard** — real-time enforcement of token budgets with a "Safe Mode" failover tier.
+
+---
+
+## Performance & Cost Optimization
 
 | Metric | Baseline (Static GPT-4o) | Optimized (Revela AI) | Improvement |
 | :--- | :--- | :--- | :--- |
 | **Total Cost** | $12.45 | $4.55 | **63.4% Savings** |
 | **Avg Latency** | 3.2s | 1.1s | **65% Faster** |
-| **Token Efficiency** | 100% | 98.2% (Quality Retained) | **-** |
+| **Token Efficiency** | 100% | 98.2% (Quality Retained) | — |
 
 ---
 
-##  System Architecture
+## System Architecture
 
 ```mermaid
 graph TD
-  User((Candidate)) --> UI[Streamlit UI]
-  UI --> Orchestrator[Orchestrator Agent]
-  
+  User((Candidate / Recruiter)) --> FE[Next.js Frontend]
+  FE -->|REST| API[FastAPI Backend]
+  FE -->|Auth| Auth[NextAuth.js — OAuth + Credentials]
+  Auth --> Mongo[(MongoDB Atlas — Users & Sessions)]
+
+  API --> Orchestrator[Orchestrator Agent]
+
   subgraph "Runtime Intelligence (CascadeFlow)"
     Orchestrator --> Router[Router / Gatekeeper]
     Router --> Policy{Policy Engine}
@@ -56,36 +60,96 @@ graph TD
     Memory -- "Retain/Reflect" --> HS[(Hindsight Cloud Bank)]
     HS -- "Recall Context" --> Orchestrator
   end
+
+  Orchestrator --> Mongo
 ```
 
 ---
 
-##  Resilience & Reliability
-- **Circuit Breaker Pattern**: Automatically detects provider latency spikes or outages and trips the circuit to protect session stability.
-- **Graceful Degradation**: 100% uptime guarantee by falling back to a pre-warmed safety tier during primary provider instability.
-- **Auditability**: Every inference decision is logged with a unique `trace_id` and a human-readable `rationale` for model selection.
+## Tech Stack
+
+**Frontend:** Next.js 15 (App Router), TypeScript, React, Tailwind CSS, NextAuth.js v5
+**Backend:** FastAPI, Python, Uvicorn
+**Database:** MongoDB Atlas
+**AI/LLM:** Groq API, CascadeFlow (routing), Hindsight (memory)
+**Auth:** OAuth (Google, GitHub, LinkedIn) + email/password (bcrypt-hashed credentials)
 
 ---
 
-##  The Winning Demo (60-Second Story)
+## Resilience & Reliability
 
-1.  **The Fresh Start**: Interview a candidate. Show the **CascadeFlow Sidebar** saving money immediately on intro questions.
-2.  **The Pivot**: Ask a hard question. Show the **Speculative Escalation** in the logs as it moves to the Performance tier.
-3.  **The Memory Moment**: Start a *new* session with the same candidate name. Point to the **Hindsight Persistent Context**—the agent "Recalls" past weaknesses and pivots the strategy live.
-4.  **The Business ROI**: Show the **Analytics Dashboard**. Point to the **$ Cost Saved** vs **Quality Retained** metrics.
+- **Circuit Breaker Pattern** — automatically detects provider latency spikes or outages and trips the circuit to protect session stability.
+- **Graceful Degradation** — falls back to a pre-warmed safety tier during primary provider instability.
+- **Auditability** — every inference decision is logged with a unique `trace_id` and a human-readable `rationale` for model selection.
 
 ---
 
-##  Getting Started
+## The Demo Story
 
-1. **Setup**
-   ```bash
-   git clone https://github.com/Aashuti-Tech-Trek/Revela-AI.git
-   pip install -r requirements.txt
-   ```
-2. **Environment**
-   Add your `GROQ_API_KEY` and `HINDSIGHT_API_KEY` to a `.env` file.
-3. **Launch**
-   ```bash
-   streamlit run app.py
-   ```
+1. **The Fresh Start** — interview a candidate; the CascadeFlow router saves money immediately on intro questions.
+2. **The Pivot** — ask a hard question; watch the speculative escalation move to the performance tier.
+3. **The Memory Moment** — start a *new* session with the same candidate; the agent recalls past weaknesses via Hindsight and pivots strategy live.
+4. **The Business ROI** — the analytics dashboard shows cost saved vs. quality retained.
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18.18+
+- Python 3.12+
+- A MongoDB Atlas cluster (or local MongoDB)
+- Groq API key, and optionally a Hindsight API key
+
+### 1. Clone
+```bash
+git clone https://github.com/console-log-life/Revela-AI.git
+cd Revela-AI
+```
+
+### 2. Backend
+```bash
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS/Linux
+
+pip install -r requirements.txt
+```
+
+Create a `.env` file in the project root (see `.env.example`) with:
+```
+GROQ_API_KEY=your_key
+HINDSIGHT_API_KEY=your_key
+MONGODB_URI=your_mongodb_connection_string
+```
+
+Run the API server:
+```bash
+uvicorn api_server:app --reload --port 5000
+```
+
+### 3. Frontend
+```bash
+cd frontend
+npm install
+```
+
+Create `frontend/.env.local` (see `frontend/.env.example`) with your `NEXTAUTH_SECRET`, OAuth provider credentials, and `MONGODB_URI`.
+
+```bash
+npm run dev
+```
+
+Visit `http://localhost:3000`.
+
+### Optional — Streamlit demo (legacy)
+A standalone Streamlit prototype is also included for quick local demos without the Next.js frontend:
+```bash
+streamlit run app.py
+```
+
+---
+
+## License
+
+Built for the 2026 AI Innovation Hackathon.
