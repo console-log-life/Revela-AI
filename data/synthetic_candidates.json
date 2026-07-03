@@ -1,0 +1,52 @@
+[
+  {
+    "id": "alex_rivera_001",
+    "name": "Alex Rivera",
+    "email": "alex.rivera@example.com",
+    "role": "Senior Backend Engineer",
+    "experience_years": 8,
+    "weak_areas": [
+      "Distributed Systems",
+      "Kafka partitions"
+    ],
+    "strengths": [
+      "Python",
+      "PostgreSQL optimization"
+    ]
+  },
+  {
+    "id": "sarah_chen_002",
+    "name": "Sarah Chen",
+    "email": "sarah.chen@example.com",
+    "role": "AI Researcher",
+    "experience_years": 5,
+    "weak_areas": [
+      "CUDA kernel optimization"
+    ],
+    "strengths": [
+      "Transformer architectures",
+      "PyTorch"
+    ]
+  },
+  {
+    "id": "CAND-001",
+    "name": "CAND-001",
+    "email": "",
+    "role": "Interview Candidate",
+    "experience_years": 0,
+    "weak_areas": [],
+    "strengths": []
+  },
+  {
+    "id": "bhanu",
+    "name": "Bhanu",
+    "email": "bhanu@gmail.com",
+    "role": "SDE",
+    "experience_years": 5,
+    "weak_areas": [],
+    "strengths": [
+      "React",
+      "system design etc."
+    ]
+  }
+]

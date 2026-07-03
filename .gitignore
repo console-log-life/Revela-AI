@@ -1,0 +1,11 @@
+venv/
+.env
+__pycache__/
+*.pyc
+logs/
+data/*.json
+!data/synthetic_candidates.json
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+node_modules
