@@ -1,3 +1,4 @@
+
 import type {
   AuthResponse,
   Candidate,
@@ -11,6 +12,7 @@ import type {
   TraceItem,
   WorkspaceMessage
 } from "@/types/domain";
+export type { Candidate } from "@/types/domain";
 
 export interface StartSessionRequest {
   candidateId: string;
