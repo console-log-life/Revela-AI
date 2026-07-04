@@ -8,6 +8,18 @@ Full-stack: **Next.js 15** (App Router, TypeScript) frontend + **FastAPI** (Pyth
 
 ---
 
+## 🚀 Live Demo
+
+| | |
+| :--- | :--- |
+| **App** | [revela-ai-ap-coral.vercel.app](https://revela-ai-ap-coral.vercel.app) |
+| **API** | [revela-ai-ynni.onrender.com](https://revela-ai-ynni.onrender.com) |
+| **Repo** | [github.com/console-log-life/Revela-AI](https://github.com/console-log-life/Revela-AI) |
+
+> Note: the backend runs on Render's free tier, which spins down after 15 minutes of inactivity. The first request after a period of idle time may take 30–40 seconds to wake up — subsequent requests are fast.
+
+---
+
 ## Key Innovation Pillars
 
 ### 1. Biomimetic Memory Persistence (Hindsight)
@@ -38,8 +50,8 @@ An **in-process intelligence layer** that treats model selection as a first-clas
 
 ```mermaid
 graph TD
-  User((Candidate / Recruiter)) --> FE[Next.js Frontend]
-  FE -->|REST| API[FastAPI Backend]
+  User((Candidate / Recruiter)) --> FE[Next.js Frontend — Vercel]
+  FE -->|REST| API[FastAPI Backend — Render]
   FE -->|Auth| Auth[NextAuth.js — OAuth + Credentials]
   Auth --> Mongo[(MongoDB Atlas — Users & Sessions)]
 
@@ -68,8 +80,8 @@ graph TD
 
 ## Tech Stack
 
-**Frontend:** Next.js 15 (App Router), TypeScript, React, Tailwind CSS, NextAuth.js v5
-**Backend:** FastAPI, Python, Uvicorn
+**Frontend:** Next.js 15 (App Router), TypeScript, React, Tailwind CSS, NextAuth.js v5 — deployed on **Vercel**
+**Backend:** FastAPI, Python, Uvicorn — deployed on **Render**
 **Database:** MongoDB Atlas
 **AI/LLM:** Groq API, CascadeFlow (routing), Hindsight (memory)
 **Auth:** OAuth (Google, GitHub, LinkedIn) + email/password (bcrypt-hashed credentials)
@@ -93,7 +105,7 @@ graph TD
 
 ---
 
-## Getting Started
+## Running Locally
 
 ### Prerequisites
 - Node.js 18.18+
@@ -147,6 +159,17 @@ A standalone Streamlit prototype is also included for quick local demos without 
 ```bash
 streamlit run app.py
 ```
+
+---
+
+## Deployment
+
+This project is deployed as two separate services:
+
+- **Frontend** → [Vercel](https://vercel.com), root directory set to `frontend/`.
+- **Backend** → [Render](https://render.com), start command `uvicorn api_server:app --host 0.0.0.0 --port $PORT`.
+
+Both connect to the same MongoDB Atlas cluster. The backend's `FRONTEND_ORIGINS` environment variable must match the deployed frontend URL exactly (no trailing slash) for CORS to work correctly. OAuth providers (Google, GitHub, LinkedIn) each need the production callback URL added to their respective developer consoles, e.g. `https://<your-app>.vercel.app/api/auth/callback/google`.
 
 ---
 
